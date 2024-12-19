@@ -1,3 +1,5 @@
+package com.library;
+
 import com.library.service.BorrowService;
 import com.library.service.BookService;
 import com.library.service.StudentService;
@@ -5,6 +7,7 @@ import com.library.model.Book;
 import com.library.model.Student;
 import com.library.model.Borrow;
 import com.library.dao.BorrowDAO;  // Importer BorrowDAO
+
 import java.util.Date;
 import java.util.Scanner;
 
@@ -20,7 +23,7 @@ public class Main {
         BorrowService borrowService = new BorrowService(borrowDAO);  // Passer BorrowDAO au constructeur de BorrowService
         Book book = new Book("Effective Java", "Joshua Bloch", "123456", 2017);
         Borrow borrow = new Borrow(1, student, book, new Date(), new Date());
-        
+
         boolean running = true;
 
         while (running) {
@@ -43,7 +46,7 @@ public class Main {
                     String title = scanner.nextLine();
                     System.out.print("Entrez l'auteur du livre: ");
                     String author = scanner.nextLine();
-                    Book book = new Book(title, author);
+                    book = new Book(title, author);
                     bookService.addBook(book);
                     break;
 
@@ -54,7 +57,7 @@ public class Main {
                 case 3:
                     System.out.print("Entrez le nom de l'étudiant: ");
                     String studentName = scanner.nextLine();
-                    Student student = new Student(studentName);
+                    student = new Student(Helper.getEntityId("students"), studentName);
                     studentService.addStudent(student);
                     break;
 
@@ -71,7 +74,7 @@ public class Main {
                     Book bookForBorrow = bookService.findBookById(bookId);
                     if (studentForBorrow != null && bookForBorrow != null) {
                         // Créer un objet Borrow avec les informations nécessaires
-                        Borrow borrow = new Borrow(studentForBorrow.getName(), bookForBorrow.getTitle(), new Date(), null);
+                        borrow = new Borrow(Helper.getEntityId("borrows"), studentForBorrow, bookForBorrow, new Date(), null);
                         borrowService.borrowBook(borrow);  // Appel de la méthode avec l'objet Borrow
                     } else {
                         System.out.println("Étudiant ou livre introuvable.");

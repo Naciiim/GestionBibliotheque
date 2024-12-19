@@ -1,4 +1,9 @@
 com\library\model\Book.class
+com\library\util\DbConnection.class
+com\library\dao\StudentDAO.class
+com\library\dao\BookDAO.class
+com\library\dao\BorrowDAO.class
 com\library\model\Borrow.class
 com\library\service\BorrowService.class
 com\library\model\Student.class
+com\library\service\BookService.class
