@@ -3,7 +3,7 @@ pipeline {
     environment {
         MAVEN_HOME = tool 'Maven'
         SONAR_PROJECT_KEY = 'GestionBibliotheque'
-        SONAR_SCANNER_HOME=tool 'SonarScanner'
+        SONAR_SCANNER_HOME = tool 'SonarScanner'
     }
     stages {
         stage('Checkout') {
@@ -22,24 +22,21 @@ pipeline {
             }
         }
         stage('Quality Analysis') {
-         stage('Quality Analysis') {
-             steps {
-                 echo 'Starting Quality Analysis...'
-                 withCredentials([string(credentialsId: 'GestionBibliotheque-token', variable: 'SONAR_TOKEN')]) {
-                     withSonarQubeEnv('SonarQube') {
-                         bat """
-                             echo Running SonarQube analysis
-                             %MAVEN_HOME%/bin/mvn --version
-                             %MAVEN_HOME%/bin/mvn sonar:sonar ^
-                             -Dsonar.host.url=http://localhost:9000 ^
-                             -Dsonar.login=%SONAR_TOKEN% ^
-                             -Dsonar.projectKey=%SONAR_PROJECT_KEY%
-                         """
-                     }
-                 }
-             }
-         }
-
+            steps {
+                echo 'Starting Quality Analysis...'
+                withCredentials([string(credentialsId: 'GestionBibliotheque-token', variable: 'SONAR_TOKEN')]) {
+                    withSonarQubeEnv('SonarQube') {
+                        bat """
+                            echo Running SonarQube analysis
+                            %MAVEN_HOME%/bin/mvn sonar:sonar ^
+                            -Dsonar.host.url=http://localhost:9000 ^
+                            -Dsonar.login=%SONAR_TOKEN% ^
+                            -Dsonar.projectKey=%SONAR_PROJECT_KEY%
+                        """
+                    }
+                }
+            }
+        }
         stage('Deploy') {
             steps {
                 echo 'Déploiement simulé réussi'
