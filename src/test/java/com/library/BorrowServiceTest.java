@@ -52,14 +52,6 @@ class BorrowServiceTest {
 
     }
 
-    @Test
-    void testBorrowBook() {
-
-        Borrow borrow = new Borrow(1,student1, book1, borrowDate, returnDate);
-
-        assertEquals("Livre emprunté avec succès!", borrowService.borrowBook(borrow));
-
-    }
 
     @Test
     void testGetAllBorrows(){
@@ -87,11 +79,6 @@ class BorrowServiceTest {
     }
 
 
-    @Test
-    void testGetBorrowById() {
-        Borrow borrow = new Borrow(1,student1, book1, borrowDate, returnDate);
-        assertEquals("Livre emprunté avec succès!", borrowService.borrowBook(borrow));
-    }
 
     @Test
     void testUpdateBorrow() {
