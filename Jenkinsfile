@@ -21,20 +21,18 @@ pipeline {
                 bat '%MAVEN_HOME%/bin/mvn test'
             }
         }
-       stage('Quality Analysis') {
-           steps {
-               withSonarQubeEnv('SonarQube') {
-                   bat """
-                   "%SONAR_SCANNER_HOME%\\bin\\sonar-scanner" ^
-                   -Dsonar.projectKey=%SONAR_PROJECT_KEY% ^
-                   -Dsonar.sources=. ^
-                   -Dsonar.host.url=http://localhost:9000 ^
-                   -Dsonar.login=%SONAR_TOKEN%
-                   """
-               }
-           }
-       }
-
+        stage('Quality Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    bat """
+                               "%SONAR_SCANNER_HOME%\\bin\\sonar-scanner" ^
+                               -Dsonar.projectKey=%SONAR_PROJECT_KEY% ^
+                               -Dsonar.sources=. ^
+                               -Dsonar.host.url=http://localhost:9000 ^
+                               -Dsonar.login=%SONAR_TOKEN%
+                               """
+                           }
+            }
         }
         stage('Deploy') {
             steps {
