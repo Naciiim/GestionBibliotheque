@@ -23,15 +23,14 @@ pipeline {
         }
         stage('Quality Analysis') {
             steps {
-                withSonarQubeEnv('SonarQube') {
+            withCredentials([string(credentialsId: 'SonarQube-GestionBibliotheque-token', variable: 'SONAR_TOKEN')])
+              {  withSonarQubeEnv('SonarQube') {
                     bat """
-                               "%SONAR_SCANNER_HOME%\\bin\\sonar-scanner" ^
-                               -Dsonar.projectKey=%SONAR_PROJECT_KEY% ^
-                               -Dsonar.sources=. ^
+                              mvn sonar:sonar \
                                -Dsonar.host.url=http://localhost:9000 ^
                                -Dsonar.login=%SONAR_TOKEN%
                                """
-                           }
+                     }      }
             }
         }
         stage('Deploy') {
