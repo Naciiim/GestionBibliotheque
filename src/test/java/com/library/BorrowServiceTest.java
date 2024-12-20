@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 class BorrowServiceTest {
     private BorrowService borrowService;
@@ -54,11 +55,13 @@ class BorrowServiceTest {
 
     @Test
     void testBorrowBook() {
+        Borrow borrow = new Borrow(1, student1, book1, borrowDate, returnDate);
 
-        Borrow borrow = new Borrow(1,student1, book1, borrowDate, returnDate);
+        when(studentService.findStudentById(1)).thenReturn(student1); // Mock de la méthode findStudentById
+        when(bookService.findBookById(1)).thenReturn(book1); // Mock de la méthode findBookById
+        when(borrowDAO.addBorrow(borrow)).thenReturn("Livre emprunté avec succès!"); // Mock de l'ajout de l'emprunt
 
         assertEquals("Livre emprunté avec succès!", borrowService.borrowBook(borrow));
-
     }
 
     @Test
@@ -89,17 +92,19 @@ class BorrowServiceTest {
 
     @Test
     void testGetBorrowById() {
-        Borrow borrow = new Borrow(1,student1, book1, borrowDate, returnDate);
-        assertEquals("Livre emprunté avec succès!", borrowService.borrowBook(borrow));
+        Borrow borrow = new Borrow(1, student1, book1, borrowDate, returnDate);
+        when(borrowDAO.getById(1)).thenReturn(borrow); // Mock de la récupération d'un emprunt
+
+        assertEquals(borrow, borrowService.getBorrowById(1));
     }
 
     @Test
     void testUpdateBorrow() {
-        Borrow borrow = new Borrow(1,student1, book1, borrowDate, returnDate);
-        borrowService.borrowBook(borrow);
-        borrow.setReturnDate(new Date(System.currentTimeMillis()));
-        assertEquals("Emprunt mis à jour avec succès!", borrowService.updateBorrow(borrow));
+        Borrow borrow = new Borrow(1, student1, book1, borrowDate, returnDate);
 
+        when(borrowDAO.save(borrow)).thenReturn("Emprunt mis à jour avec succès!"); // Mock de la mise à jour d'un emprunt
+
+        assertEquals("Emprunt mis à jour avec succès!", borrowService.updateBorrow(borrow));
     }
 
     @Test
