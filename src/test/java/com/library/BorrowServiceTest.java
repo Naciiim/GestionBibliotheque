@@ -102,8 +102,10 @@ class BorrowServiceTest {
     void testUpdateBorrow() {
         Borrow borrow = new Borrow(1, student1, book1, borrowDate, returnDate);
 
-        when(borrowDAO.save(borrow)).thenReturn("Emprunt mis à jour avec succès!"); // Mock de la mise à jour d'un emprunt
+        // Mock du comportement de la méthode updateBorrow dans le DAO
+        when(borrowDAO.save(borrow)).thenReturn("Emprunt mis à jour avec succès!");
 
+        // Appel de la méthode dans BorrowService qui utilise le mock
         assertEquals("Emprunt mis à jour avec succès!", borrowService.updateBorrow(borrow));
     }
 
