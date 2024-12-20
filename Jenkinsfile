@@ -26,7 +26,7 @@ pipeline {
             withCredentials([string(credentialsId: 'SonarQube-GestionBibliotheque-token', variable: 'SONAR_TOKEN')])
               {  withSonarQubeEnv('SonarQube') {
                     bat """
-                              mvn sonar:sonar \
+                              mvn sonar:sonar ^
                                -Dsonar.host.url=http://localhost:9000 ^
                                -Dsonar.login=%SONAR_TOKEN%
                                """
