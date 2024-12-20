@@ -8,8 +8,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/Naciiim/GestionBibliotheque.git',
-                branch : 'main'
+                git url: 'https://github.com/Naciiim/GestionBibliotheque.git', branch: 'main'
             }
         }
         stage('Build') {
@@ -26,11 +25,12 @@ pipeline {
             steps {
                 withSonarQubeEnv('SonarQube') {
                     bat """
-                    ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
-                    -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
-                    -Dsonar.sources-. \
-                    -Dsonar.host.url=http://localhost:9000\
-                    -Dsonar.login=${SONAR_TOKEN}\
+          ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
+          -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
+          -Dsonar.sources=. \
+          -Dsonar.host.url=http://localhost:9000 \
+          -Dsonar.login=${SONAR_TOKEN}
+
                            """
                            }
             }
