@@ -25,7 +25,7 @@ pipeline {
          stage('Quality Analysis') {
              steps {
                  echo 'Starting Quality Analysis...'
-                 withCredentials([string(credentialsId: 'SonarQube-GestionBibliotheque-token', variable: 'SONAR_TOKEN')]) {
+                 withCredentials([string(credentialsId: 'GestionBibliotheque-token', variable: 'SONAR_TOKEN')]) {
                      withSonarQubeEnv('SonarQube') {
                          bat """
                              echo Running SonarQube analysis
