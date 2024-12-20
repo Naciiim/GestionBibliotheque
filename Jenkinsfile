@@ -22,21 +22,24 @@ pipeline {
             }
         }
         stage('Quality Analysis') {
-            steps {
-            echo 'Starting Quality Analysis...'
-                    withCredentials([string(credentialsId: 'SonarQube-GestionBibliotheque-token', variable: 'SONAR_TOKEN')]) {
-                        withSonarQubeEnv('SonarQube') {
-                            bat """
-                                echo Running SonarQube analysis
-                                %MAVEN_HOME%/bin/mvn sonar:sonar ^
-                                -Dsonar.host.url=http://localhost:9000 ^
-                                -Dsonar.login=%SONAR_TOKEN% ^
-                                -Dsonar.projectKey=%SONAR_PROJECT_KEY% ^
-                                -Dsonar.verbose=true
-                            """
-                     }      }
-            }
-        }
+         stage('Quality Analysis') {
+             steps {
+                 echo 'Starting Quality Analysis...'
+                 withCredentials([string(credentialsId: 'SonarQube-GestionBibliotheque-token', variable: 'SONAR_TOKEN')]) {
+                     withSonarQubeEnv('SonarQube') {
+                         bat """
+                             echo Running SonarQube analysis
+                             %MAVEN_HOME%/bin/mvn --version
+                             %MAVEN_HOME%/bin/mvn sonar:sonar ^
+                             -Dsonar.host.url=http://localhost:9000 ^
+                             -Dsonar.login=%SONAR_TOKEN% ^
+                             -Dsonar.projectKey=%SONAR_PROJECT_KEY%
+                         """
+                     }
+                 }
+             }
+         }
+
         stage('Deploy') {
             steps {
                 echo 'Déploiement simulé réussi'
